@@ -1,0 +1,25 @@
+h1{
+  font-size: 12px;
+}
+.column {
+  font-size: 11px;
+  float: left;
+  width: 30%;
+}
+
+table{  width: 100%;}
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+th{
+  background-color: papayawhip;
+}
+.sat{
+  background-color: #b1d0b1;
+}
+.sun{
+  background-color: #fcc674;
+ }
