@@ -17,8 +17,11 @@ public record myevents {
     }
 
     void fill(){
+        addCustomDay(2, 14, "Valentinstag");
+        addCustomDay(3, 20, "Frühlingsanfang");
         addCustomDay(6, 21, "Sommeranfang");
-        addCustomDay(2, 14, "Valentine");
+        addCustomDay(9, 22, "Herbstanfang");
+        addCustomDay(12, 21, "Winteranfang");
         //... add yours.
     }
 }

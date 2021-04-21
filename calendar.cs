@@ -50,6 +50,7 @@ public class calx : calendarnames{
         addlocalceleb(1, 6, "Epiphany");
         addvarceleb(-48,"Rose Monday", false);
         addlocalceleb(3, 8, "IWD");
+        addceleb(NextSunday(theyear, 3, 25), "Beginn der Sommerzeit");
         addvarceleb(-2,"Good Friday");
         addvarceleb(0, "Easter Sunday");
         addvarceleb(1, "Easter Monday");

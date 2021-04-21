@@ -25,6 +25,7 @@ public class calendarnames {
         holidaynames.Add("Epiphany", "Heilige drei Könige");
         holidaynames.Add("Rose Monday", "Rosenmontag");
         holidaynames.Add("IWD", "Weltfrauentag");
+        holidaynames.Add("Beginn der Sommerzeit", "Beginn der Sommerzeit");
         holidaynames.Add("Good Friday", "Karfreitag");
         holidaynames.Add("Easter Sunday", "Ostersonntag");
         holidaynames.Add("Easter Monday", "Ostermontag");
