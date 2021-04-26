@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 
 namespace Kalender
 {
@@ -7,13 +6,32 @@ namespace Kalender
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("This a HTML calendar");
-            //string foo = Console.ReadLine();
-            //int year = Int32.Parse(Console.ReadLine());
-            FileOut f1 = new FileOut(1);
-            FileOut f2 = new FileOut(2);
-            FileOut f3 = new FileOut(3);
-            FileOut f4 = new FileOut(4);
+            int y=0; string name = "";
+            if(args.Length == 0){
+                Console.WriteLine("Usage: Kalender YYYY [optional: name]");
+            }
+            bool isOK = args.Length>0 && int.TryParse(args[0], out y);
+            if(!isOK){
+                Console.WriteLine("Please enter a year (four digits).");
+                isOK = int.TryParse(Console.ReadLine(), out y);
+            }
+            //
+            if(y>=1900 && isOK){
+                if(args.Length>1){
+                    for (int i=1; i< args.Length; i++){
+                        name += "_"+args[i];
+                    }
+                    Console.WriteLine(@"HTML calendar for "+name+" for "+y);
+                    new TheYear(y, name);
+                }
+                else {
+                    Console.WriteLine("HTML calendar for "+y);
+                    new TheYear(y);
+                }
+            }
+            else{
+                Console.WriteLine("Cannot generate a calendar for year "+y);
+            }
         }
     }
 }

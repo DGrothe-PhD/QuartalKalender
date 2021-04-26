@@ -8,9 +8,15 @@ using System.Collections.Generic;
 */
 public class TheYear{
     public int year {get; set;}
+
     public TheYear(int year) { 
         this.year = year;
         FileOut f1 = new FileOut(year);
+    }
+
+    public TheYear(int year, string name) { 
+        this.year = year;
+        FileOut f1 = new FileOut(year, name);
     }
 
     public TheYear(int year, int quarter) { 
@@ -21,15 +27,25 @@ public class TheYear{
 
 
 public class FileOut {
-    string path;
-    public static calx year1; //= new calx(2021);
+    string path, name; int year;
+    public static calx year1;
 
     public FileOut(int year) {
+        this.year = year;
+        year1 = new calx(year);
+        for(int i=0;i<4;i++) Qile(i+1);
+    }
+
+    public FileOut(int year, string name) {
+        this.year = year;
+        this.name = name;
         year1 = new calx(year);
         for(int i=0;i<4;i++) Qile(i+1);
     }
 
     public FileOut(int year, int quarter) {
+        this.year = year;
+        this.name = "";
         year1 = new calx(year);
         path = @"results/Kalender_"+quarter+".html";
         HTMLPreamble(quarter);
@@ -37,7 +53,7 @@ public class FileOut {
     }
 
     private void Qile(int quarter){
-        path = @"results/Kalender_"+quarter+".html";
+        path = @"results/Kalender_"+year+"_"+quarter+name+".html";
         HTMLPreamble(quarter);
         WriteinFile(quarter);
     }
@@ -95,7 +111,7 @@ public class FileOut {
     public void WriteinFile(int quarter){
         //Append to the file.
         using (FileStream fs = new FileStream(path, FileMode.Append)){
-            AddText(fs, HTML.Year(2021));
+            AddText(fs, HTML.Year(year));
             AddText(fs, HTML.StartRow);
             AddMonth(fs, 1+3*(quarter-1), 3+3*(quarter-1));
             AddText(fs, HTML.CloseRow + HTML.Finish);

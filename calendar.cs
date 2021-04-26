@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Collections.Generic;
 
 public class calx : calendarnames{
-    public int theyear = 2021;
+    public int year;
     int currHoliday, currCE, currLocHol, currevents;
     public List<celeb> holidays, events, customevents, localholidays;
     public myevents cuev; //imports seperately stored user events
@@ -16,8 +16,8 @@ public class calx : calendarnames{
     }
     void addceleb(int month, int day, string name, bool isHoliday=true){
         // independent of Easter
-        if(isHoliday) holidays.Add(new celeb(new DateTime(theyear, month, day), holidaynames[name]));
-        else events.Add(new celeb(new DateTime(theyear, month, day), holidaynames[name]));
+        if(isHoliday) holidays.Add(new celeb(new DateTime(year, month, day), holidaynames[name]));
+        else events.Add(new celeb(new DateTime(year, month, day), holidaynames[name]));
     }
 
     void addceleb(DateTime when, string name, bool isHoliday=true){
@@ -28,7 +28,7 @@ public class calx : calendarnames{
 
     void addlocalceleb(int month, int day, string name){
         try{
-        localholidays.Add(new celeb(new DateTime(theyear, month, day), holidaynames[name]));
+        localholidays.Add(new celeb(new DateTime(year, month, day), holidaynames[name]));
         }
         catch(KeyNotFoundException){Console.WriteLine("Failed to add local event: "+name);}
     }
@@ -37,9 +37,9 @@ public class calx : calendarnames{
     }
 
     
-    public calx(int theyear) : base() {
-        this.theyear = theyear;
-        easter = EasterSunday(theyear);
+    public calx(int year) : base() {
+        this.year = year;
+        easter = EasterSunday(year);
         // initialize all event lists
         holidays = new List<celeb>();
         events = new List<celeb>();
@@ -50,12 +50,12 @@ public class calx : calendarnames{
         addlocalceleb(1, 6, "Epiphany");
         addvarceleb(-48,"Rose Monday", false);
         addlocalceleb(3, 8, "IWD");
-        addceleb(NextSunday(theyear, 3, 25), "Beginn der Sommerzeit");
+        addceleb(NextSunday(year, 3, 25), "Beginn der Sommerzeit");
         addvarceleb(-2,"Good Friday");
         addvarceleb(0, "Easter Sunday");
         addvarceleb(1, "Easter Monday");
         addceleb(5, 1, "May Day");
-        addceleb(NextSunday(theyear, 5, 8), "Muttertag");
+        addceleb(NextSunday(year, 5, 8), "Muttertag");
         addvarceleb(39, "Ascension");
         addvarceleb(49, "Pfingstsonntag");
         addvarceleb(50, "Pfingstmontag");
@@ -63,20 +63,20 @@ public class calx : calendarnames{
         addceleb(8, 15, "Assumption", false);
         addceleb(10, 3, "Tag der dt. Einheit");
         addceleb(10, 31, "Reformationstag", false);
-        addceleb(NextSunday(theyear, 10, 25), "Ende der Sommerzeit");
+        addceleb(NextSunday(year, 10, 25), "Ende der Sommerzeit");
         addlocalceleb(11, 1, "All Saints");
-        addceleb(NextSunday(theyear, 11, 13), "Memorial Day");
-        addceleb(NextSunday(theyear, 11, 13).AddDays(3), "Penance Day", false);
-        addceleb(NextSunday(theyear, 11, 20), "Totensonntag");
+        addceleb(NextSunday(year, 11, 13), "Memorial Day");
+        addceleb(NextSunday(year, 11, 13).AddDays(3), "Penance Day", false);
+        addceleb(NextSunday(year, 11, 20), "Totensonntag");
         for(int i=0; i<4; i++){
-            addceleb(NextSunday(theyear, 11, 27).AddDays(7*i), (i+1)+". Advent");
+            addceleb(NextSunday(year, 11, 27).AddDays(7*i), (i+1)+". Advent");
         }
         addceleb(12, 24, "Christmas Eve", false);
         addceleb(12, 25, "Christmas Day");
         addceleb(12, 26, "Boxing Day");
         addceleb(12, 31, "New Years Eve");
 
-        cuev = new myevents(theyear);
+        cuev = new myevents(year);
         customevents = cuev.customevents;
         // Sort nutzt IComparable Implementierung der Klassenobjekte
         holidays.Sort();
@@ -122,26 +122,15 @@ public class calx : calendarnames{
         return aw;
     }
 
-    public int GetWeekNum(DateTime date){
-        return ISOWeek.GetWeekOfYear(date);
-    }
+    public int GetWeekNum(DateTime date) => ISOWeek.GetWeekOfYear(date);
     
-    public DateTime GetDate(int month, int day){
-        return new DateTime(theyear, month, day);
-    }
+    public DateTime GetDate(int month, int day) => new DateTime(year, month, day);
 
-    public string GetWeekDay(DateTime dt){
-        //datetime object creation just once
-        return dt.ToString("ddd", german);
-    }
+    public string GetWeekDay(DateTime dt) => dt.ToString("ddd", german);
 
-    public string GetWeekDay(int month, int day){
-        return new DateTime(theyear,month, day).ToString("ddd", german);
-    }
-    /*    
-        dayName = DateTime.Now.ToString("dddd", german);
-        now_hour = DateTime.Now.Hour;
-    */
+    public string GetWeekDay(int month, int day) =>
+        new DateTime(year,month, day).ToString("ddd", german);
+
     public int NumDays(int month){
         int j;
         switch(month){
@@ -152,7 +141,7 @@ public class calx : calendarnames{
                 j = 30;
                 break;
             case 2:
-                j = DateTime.IsLeapYear(theyear)?29:28;
+                j = DateTime.IsLeapYear(year)?29:28;
                 break;
             default:
                 j= 31;
@@ -173,8 +162,7 @@ public class calx : calendarnames{
     }
     static DateTime EasterSunday(int year){
         // Source: https://stackoverflow.com/a/2510411
-        int day = 0;
-        int month = 0;
+        int day = 0, month = 0;
 
         int g = year % 19;
         int c = year / 100;
@@ -204,20 +192,12 @@ public class celeb : IComparable<celeb>, IEquatable<DateTime> {
         return this.when.CompareTo(other.when);
     }
 
-    public bool Equals(DateTime somedate){
-        return this.when == somedate;
-    }
+    public bool Equals(DateTime somedate) => this.when == somedate;
     public DateTime when {get; set;}
     public string what {get; set;}
-
-    /*private bool written = false;
-    public bool Passed {
-        get {return written;}
-        set {written = true;}
-    }*/
 }
 
-public class answer{
+public class answer{//holiday-entry return type
         public int status;
         public string text;
 }
