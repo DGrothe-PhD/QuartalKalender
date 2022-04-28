@@ -4,6 +4,7 @@ namespace Kalender
 {
     class Program
     {
+        static String language = "de-DE";
         static void Main(string[] args)
         {
             int y=0; string name = "";
@@ -19,6 +20,7 @@ namespace Kalender
             if(y>=1900 && isOK){
                 if(args.Length>1){
                     for (int i=1; i< args.Length; i++){
+                        if(args[i].Contains("lang=")) language = "en-GB";
                         name += "_"+args[i];
                     }
                     Console.WriteLine(@"HTML calendar for "+name+" for "+y);
@@ -26,7 +28,7 @@ namespace Kalender
                 }
                 else {
                     Console.WriteLine("HTML calendar for "+y);
-                    new TheYear(y);
+                    new TheYear(y, String.Empty);
                 }
             }
             else{

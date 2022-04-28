@@ -2,57 +2,73 @@ using System;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
+using System.Globalization;
 
 /** 
 * This class produces quarterly calendar sheets of HTML format.
 */
 public class TheYear{
     public int year {get; set;}
+    public static CultureInfo language = new CultureInfo("de-DE");
 
-    public TheYear(int year) { 
-        this.year = year;
-        FileOut f1 = new FileOut(year);
+    private String lang;
+    public String Language {
+        get => lang; 
+        set {
+            lang = value;
+            language = new CultureInfo(lang);
+        } 
     }
+
 
     public TheYear(int year, string name) { 
         this.year = year;
         FileOut f1 = new FileOut(year, name);
     }
 
-    public TheYear(int year, int quarter) { 
+    public TheYear(int year, int quarter, String name) { 
         this.year = year;
-        FileOut f1 = new FileOut(year, quarter);
+        FileOut f1 = new FileOut(year, quarter, name);
     }
 }
 
 
 public class FileOut {
-    string path, name; int year;
+    string path, directory, name; int year;
     public static calx year1;
 
-    public FileOut(int year) {
-        this.year = year;
-        year1 = new calx(year);
-        for(int i=0;i<4;i++) Qile(i+1);
+    public FileOut(int year, string name) {
+        try{
+            Init(year, name);
+            year1 = new calx(year);
+            for(int i=0;i<4;i++) WriteQuarterly(i+1);
+        }
+        catch(Exception e){
+            Console.WriteLine("File access failed: {0}", e.ToString());
+        }
     }
 
-    public FileOut(int year, string name) {
+    public FileOut(int year, int quarter, string name) {
+        try{
+            Init(year, name);
+            year1 = new calx(year);
+            WriteQuarterly(quarter);
+        }
+        catch(Exception e){
+            Console.WriteLine("File access failed: {0}", e.ToString());
+        }
+    }
+
+    private void Init(int year, string name){
         this.year = year;
         this.name = name;
-        year1 = new calx(year);
-        for(int i=0;i<4;i++) Qile(i+1);
+        this.directory = "results/";
+        if(!Directory.Exists(directory)){
+                DirectoryInfo di = Directory.CreateDirectory(directory);
+        }
     }
 
-    public FileOut(int year, int quarter) {
-        this.year = year;
-        this.name = "";
-        year1 = new calx(year);
-        path = @"results/Kalender_"+quarter+".html";
-        HTMLPreamble(quarter);
-        WriteinFile(quarter);
-    }
-
-    private void Qile(int quarter){
+    private void WriteQuarterly(int quarter){
         path = @"results/Kalender_"+year+"_"+quarter+name+".html";
         HTMLPreamble(quarter);
         WriteinFile(quarter);
@@ -65,6 +81,7 @@ public class FileOut {
     }
 
     void AddMonth(FileStream target, int month){
+        //one month
         AddText(target, HTML.Column(month));
         int i;
         string daytext, week;
@@ -105,6 +122,7 @@ public class FileOut {
     }
 
     void AddMonth(FileStream target, int a, int b){
+        //months a to b
         for(int m=a; m<b+1; m++){ AddMonth(target, m);}
     }
 

@@ -8,6 +8,7 @@ public class monthnaming{
         "Juli", "August", "September", "Oktober", "November", "Dezember"
     };
 }
+
 public class calendarnames {
     // language-specific
     /*public static string[] Months = new string[] {
@@ -15,7 +16,6 @@ public class calendarnames {
         "Juli", "August", "September", "Oktober", "November", "Dezember"
     };*/
     public static Dictionary<string, string> holidaynames;
-    //kein "= new" hier, Konstruktor muss leere Liste generieren.
         
     public calendarnames(){
         try{
