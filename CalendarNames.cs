@@ -3,18 +3,54 @@ using System.Globalization;
 using System.Collections.Generic;
 
 public class monthnaming{
-    public static string[] Months = new string[] {
+
+    static string lang = "de-DE";
+
+    public static string Language {get => lang; set => lang = value;}
+
+    private static Dictionary<string, string[]> monthnames = new Dictionary<string, string[]>(){
+        { "de-DE", new string[] {
         "Januar", "Februar", "März", "April", "Mai", "Juni", 
-        "Juli", "August", "September", "Oktober", "November", "Dezember"
+        "Juli", "August", "September", "Oktober", "November", "Dezember"}},
+        { "fr-FR", new string[] {
+        "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", 
+        "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"}},
+        { "en-GB", new string[] {
+        "January", "February", "March", "April", "May", "June", 
+        "July", "August", "September", "October", "November", "December"}}
     };
+    
+    public static string Months(int number){
+        try{
+            return monthnames[lang][number];
+        }
+        catch(Exception e) {
+            Console.WriteLine(e.ToString());
+            Console.WriteLine("Language key "+lang+"is not available. German is used as default.");
+            
+            string keys ="";
+            foreach(var element in monthnames){
+                keys+= " "+element.Key;
+            }
+            Console.WriteLine("Try some of {0}.",keys);
+
+            lang="de-DE";
+            return monthnames[lang][number];
+        }
+    }
+
+    public static string MonthsGlobal(int number){
+        var name = String.Empty;
+        foreach (var lang in monthnames.Keys){
+            name += " " + monthnames[lang][number];
+        }
+        return name;
+    }
 }
 
 public class calendarnames {
     // language-specific
-    /*public static string[] Months = new string[] {
-        "Januar", "Februar", "März", "April", "Mai", "Juni", 
-        "Juli", "August", "September", "Oktober", "November", "Dezember"
-    };*/
+
     public static Dictionary<string, string> holidaynames;
         
     public calendarnames(){
