@@ -85,7 +85,7 @@ public class FileOut {
 
     void AddMonth(FileStream target, int month){
         //one month
-        if(wide==true){
+        if(!wide){
             AddText(target, HTML.Column(month));
         }
         else{

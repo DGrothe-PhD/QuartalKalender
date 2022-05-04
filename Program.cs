@@ -11,56 +11,59 @@ namespace Kalender
 
         static bool isWide = false;
 
+        static void argParse(string s){
+            if(s!= null){
+                if (s.Contains("lang=")){ 
+                    language = s.Substring(5); 
+                    monthnaming.Language = language;
+                }
+                if (s.Contains("wide=")){
+                    isWide = s.Substring(5).Equals("true");
+                }
+            }
+        }
+
         static void Main(string[] args)
         {
-            int y=0; name = "";
+            int yearnumber=0; name = "";
             input="";
             
             if(args.Length == 0){
                 Console.WriteLine("Usage: Kalender YYYY [optional: name]");
             }
-            bool isOK = args.Length>0 && int.TryParse(args[0], out y);
+            bool isOK = args.Length>0 && int.TryParse(args[0], out yearnumber);
             if(!isOK){
                 Console.WriteLine("Please enter a year (four digits).");
                 input = Console.ReadLine();
                 SplitInput = input.Split(" ");
-                isOK = int.TryParse(SplitInput[0], out y);
-            }
-            //
-            if(y>=1900 && isOK){
-                
+
                 var Naming = input.Length>4 ? input.Substring(4).Trim() : "";
                 if(Naming!=String.Empty) name+="_"+Naming;
 
+                isOK = int.TryParse(SplitInput[0], out yearnumber);
+            }
+
+            //
+            if(yearnumber>=1900 && isOK){
+
                 if(args.Length>1){
-                    for (int i=1; i< args.Length; i++){
-                        if(args[i].Contains("lang=") && args[i].Length >5) {
-                            language = args[i].Substring(5);
-                        }
-                        monthnaming.Language = language;
-                        name += "_"+args[i];
-                    }
-                }
-                else {
-                    if(SplitInput!=null)
-                    foreach(String s in SplitInput){
-                        if(s!= null){
-                            if (s.Contains("lang=")){ 
-                                language = s.Substring(5); 
-                                monthnaming.Language = language;
-                            }
-                            if (s.Contains("wide=")){
-                                isWide = s.Substring(5)=="true";
-                            }
-                        }
+                    for(int i=1; i<args.Length;i++){
+                        name = "_"+args[i]+name;
+                        argParse(args[i]);
                     }
                 }
 
-                new TheYear(y, name, isWide);
-                Console.WriteLine(@"HTML calendar for "+name+" for "+y);
+                if(SplitInput!= null){
+                    foreach(String s in SplitInput){
+                        argParse(s);
+                    }
+                }
+
+                new TheYear(yearnumber, name, isWide);
+                Console.WriteLine(@"HTML calendar for "+name+" for "+yearnumber);
             }
             else{
-                Console.WriteLine("Cannot generate a calendar for year "+y);
+                Console.WriteLine("Cannot generate a calendar for year "+yearnumber);
             }
         }
     }
