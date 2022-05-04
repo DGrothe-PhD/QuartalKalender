@@ -21,24 +21,26 @@ public class TheYear{
     }
 
 
-    public TheYear(int year, string name) { 
+    public TheYear(int year, string name, bool isWide) { 
         this.year = year;
-        FileOut f1 = new FileOut(year, name);
+        FileOut f1 = new FileOut(year, name, isWide);
     }
 
-    public TheYear(int year, int quarter, String name) { 
+    public TheYear(int year, int quarter, String name, bool isWide) { 
         this.year = year;
-        FileOut f1 = new FileOut(year, quarter, name);
+        FileOut f1 = new FileOut(year, quarter, name, isWide);
     }
 }
 
 
 public class FileOut {
     string path, directory, name; int year;
+    bool wide;
     public static calx year1;
 
-    public FileOut(int year, string name) {
+    public FileOut(int year, string name, bool isWide) {
         try{
+            wide=isWide;
             Init(year, name);
             year1 = new calx(year);
             for(int i=0;i<4;i++) WriteQuarterly(i+1);
@@ -48,8 +50,9 @@ public class FileOut {
         }
     }
 
-    public FileOut(int year, int quarter, string name) {
+    public FileOut(int year, int quarter, string name, bool isWide) {
         try{
+            wide=isWide;
             Init(year, name);
             year1 = new calx(year);
             WriteQuarterly(quarter);
@@ -82,7 +85,12 @@ public class FileOut {
 
     void AddMonth(FileStream target, int month){
         //one month
-        AddText(target, HTML.Column(month));
+        if(wide==true){
+            AddText(target, HTML.Column(month));
+        }
+        else{
+            AddText(target, HTML.ColumnWide(month));
+        }
         int i;
         string daytext, week;
         //as year1.answer this was inaccessible as inner class

@@ -8,6 +8,15 @@ h1{
   width: 30%; margin: 0.5em;
 }
 
+.column-wide {
+  font-size: 11px;
+  margin: 0.5em;
+}
+
+.days {
+  width: 3%
+}
+
 table{  width: 100%; }
 /* Clear floats after the columns */
 .row:after {

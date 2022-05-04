@@ -12,7 +12,12 @@ public class HTML{
     public static string Column(int month) => "\r\n<div class=\"column\">" +
         "<table border=\"1\"><th colspan=\"2\" width=\"20%\">" +
         "&nbsp;</th><th width=\"80%\">"+ monthnaming.Months(month-1) + "</th>";
-    public static string LineFormat = "\r\n<tr><td>{0}<td/>{1}<td/>{2}&nbsp;{3}</td></tr>";
+
+    public static string ColumnWide(int month) => "\r\n<div class=\"column-wide\">" +
+        "<table border=\"1\"><th colspan=\"2\" width=\"20%\">" +
+        "&nbsp;</th><th width=\"80%\">"+ monthnaming.Months(month-1) + "</th>";
+    public static string LineFormat = "\r\n<tr><td class=\"days\">{0}</td><td class=\"days\">{1}</td>"
+        +"<td>{2}&nbsp;{3}</td></tr>";
     public static string SundayFormat = "\r\n<tr class=\"sun\"><td>{0}<td/>{1}<td/>{2}&nbsp;{3}</td></tr>";
     public static string SaturdayFormat = "\r\n<tr class=\"sat\"><td>{0}<td/>{1}<td/>{2}&nbsp;{3}</td></tr>";
     public static string EmptyLine(int shift) => "<tr><td rowspan=\""+shift +"\" colspan=\"3\">&nbsp;</td></tr>";

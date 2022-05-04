@@ -9,6 +9,8 @@ namespace Kalender
         static string input = "";
         static string name = "";
 
+        static bool isWide = false;
+
         static void Main(string[] args)
         {
             int y=0; name = "";
@@ -42,14 +44,19 @@ namespace Kalender
                 else {
                     if(SplitInput!=null)
                     foreach(String s in SplitInput){
-                        if (s!= null && s.Contains("lang=")){ 
-                            language = s.Substring(5); 
-                            monthnaming.Language = language;
+                        if(s!= null){
+                            if (s.Contains("lang=")){ 
+                                language = s.Substring(5); 
+                                monthnaming.Language = language;
+                            }
+                            if (s.Contains("wide=")){
+                                isWide = s.Substring(5)=="true";
+                            }
                         }
                     }
                 }
 
-                new TheYear(y, name);
+                new TheYear(y, name, isWide);
                 Console.WriteLine(@"HTML calendar for "+name+" for "+y);
             }
             else{
