@@ -5,17 +5,19 @@ namespace Kalender
     class Program
     {
         static String language = "de-DE";
-        static string[] SplitInput;
+        static String[] SplitInput;
         static string input = "";
         static string name = "";
 
         static bool isWide = false;
 
-        static void argParse(string s){
+        static void argParse(String s){
+            
             if(s!= null){
                 if (s.Contains("lang=")){ 
                     language = s.Substring(5); 
                     monthnaming.Language = language;
+                    calendarnames.language =language;
                 }
                 if (s.Contains("wide=")){
                     isWide = s.Substring(5).Equals("true");
@@ -38,7 +40,7 @@ namespace Kalender
                 SplitInput = input.Split(" ");
 
                 var Naming = input.Length>4 ? input.Substring(4).Trim() : "";
-                if(Naming!=String.Empty) name+="_"+Naming;
+                if(Naming!= "") name+="_"+Naming;
 
                 isOK = int.TryParse(SplitInput[0], out yearnumber);
             }

@@ -11,29 +11,35 @@ public class calx : calendarnames{
 
     void addvarceleb(int j, string name, bool isHoliday=true){
         // coupled to Easter
-        if(isHoliday) holidays.Add(new celeb(easter.AddDays(j), holidaynames[name]));
-        else events.Add(new celeb(easter.AddDays(j), holidaynames[name]));
+        if(isHoliday) holidays.Add(new celeb(easter.AddDays(j), calendarnames.getName(name)));
+        else events.Add(new celeb(easter.AddDays(j), calendarnames.getName(name)));
     }
     void addceleb(int month, int day, string name, bool isHoliday=true){
         // independent of Easter
-        if(isHoliday) holidays.Add(new celeb(new DateTime(year, month, day), holidaynames[name]));
-        else events.Add(new celeb(new DateTime(year, month, day), holidaynames[name]));
+        if(isHoliday) holidays.Add(
+            new celeb(new DateTime(year, month, day), calendarnames.getName(name))
+        );
+        else events.Add(
+            new celeb(new DateTime(year, month, day), calendarnames.getName(name))
+        );
     }
 
     void addceleb(DateTime when, string name, bool isHoliday=true){
         // independent of Easter
-        if(isHoliday) holidays.Add(new celeb(when, holidaynames[name]));
-        else events.Add(new celeb(when, holidaynames[name]));
+        if(isHoliday) holidays.Add(new celeb(when, calendarnames.getName(name)));
+        else events.Add(new celeb(when, calendarnames.getName(name)));
     }
 
     void addlocalceleb(int month, int day, string name){
         try{
-        localholidays.Add(new celeb(new DateTime(year, month, day), holidaynames[name]));
+        localholidays.Add(
+            new celeb(new DateTime(year, month, day), calendarnames.getName(name))
+        );
         }
         catch(KeyNotFoundException){Console.WriteLine("Failed to add local event: "+name);}
     }
     void addlocalceleb(DateTime when, string name){
-        localholidays.Add(new celeb(when, holidaynames[name]));
+        localholidays.Add(new celeb(when, calendarnames.getName(name)));
     }
 
     
@@ -50,31 +56,31 @@ public class calx : calendarnames{
         addlocalceleb(1, 6, "Epiphany");
         addvarceleb(-48,"Rose Monday", false);
         addlocalceleb(3, 8, "IWD");
-        addceleb(NextSunday(year, 3, 25), "Beginn der Sommerzeit");
+        addceleb(NextSunday(year, 3, 25), "Start of CEST");
         addvarceleb(-2,"Good Friday");
         addvarceleb(0, "Easter Sunday");
         addvarceleb(1, "Easter Monday");
         addceleb(5, 1, "May Day");
-        addceleb(NextSunday(year, 5, 8), "Muttertag");
+        addceleb(NextSunday(year, 5, 8), "Mother's Day");
         addvarceleb(39, "Ascension");
-        addvarceleb(49, "Pfingstsonntag");
-        addvarceleb(50, "Pfingstmontag");
+        addvarceleb(49, "Whit Sunday");
+        addvarceleb(50, "Whit Monday");
         addvarceleb(60, "Corpus Christi");
         addceleb(8, 15, "Assumption", false);
-        addceleb(10, 3, "Tag der dt. Einheit");
-        addceleb(10, 31, "Reformationstag", false);
-        addceleb(NextSunday(year, 10, 25), "Ende der Sommerzeit");
+        addceleb(10, 3, "German Unity Day");
+        addceleb(10, 31, "Reformation Day", false);
+        addceleb(NextSunday(year, 10, 25), "End of CEST");
         addlocalceleb(11, 1, "All Saints");
         addceleb(NextSunday(year, 11, 13), "Memorial Day");
         addceleb(NextSunday(year, 11, 13).AddDays(3), "Penance Day", false);
-        addceleb(NextSunday(year, 11, 20), "Totensonntag");
+        addceleb(NextSunday(year, 11, 20), "Sunday of the Dead");
         for(int i=0; i<4; i++){
             addceleb(NextSunday(year, 11, 27).AddDays(7*i), (i+1)+". Advent");
         }
         addceleb(12, 24, "Christmas Eve", false);
         addceleb(12, 25, "Christmas Day");
         addceleb(12, 26, "Boxing Day");
-        addceleb(12, 31, "New Years Eve");
+        addceleb(12, 31, "New Year's Eve");
 
         cuev = new myevents(year);
         customevents = cuev.customevents;

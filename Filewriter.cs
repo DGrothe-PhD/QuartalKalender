@@ -53,16 +53,18 @@ public class FileOut {
     public FileOut(int year, int quarter, string name, bool isWide) {
         try{
             wide=isWide;
+            
             Init(year, name);
             year1 = new calx(year);
             WriteQuarterly(quarter);
         }
         catch(Exception e){
-            Console.WriteLine("File access failed: {0}", e.ToString());
+            Console.WriteLine("File access failed.\nReason: {0}", e.ToString());
         }
     }
 
     private void Init(int year, string name){
+        //Creates directory if it does not exist.
         this.year = year;
         this.name = name;
         this.directory = "results/";
