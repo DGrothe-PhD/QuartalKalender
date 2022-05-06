@@ -17,11 +17,11 @@ public record myevents {
     }
 
     void fill(){
-        addCustomDay(2, 14, "Valentinstag");
-        addCustomDay(3, 20, "Frühlingsanfang");
-        addCustomDay(6, 21, "Sommeranfang");
-        addCustomDay(9, 22, "Herbstanfang");
-        addCustomDay(12, 21, "Winteranfang");
+        addCustomDay(2, 14, calendarnames.getName("Valentine's Day"));
+        addCustomDay(3, 20, calendarnames.getName("Start of spring"));
+        addCustomDay(6, 21, calendarnames.getName("Start of summer"));
+        addCustomDay(9, 22, calendarnames.getName("Start of autumn"));
+        addCustomDay(12, 21, calendarnames.getName("Start of winter"));
         //... add yours.
     }
 }
